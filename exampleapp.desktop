@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Example
-Icon=exampleapp
+Icon=exampleapp.png
 StartupNotify=true
-Exec=@bindir@/exampleapp
+Exec=/home/liubing/桌面/application/exampleapp
