@@ -8,6 +8,7 @@
 
 typedef struct _ExampleAppWindow ExampleAppWindow;
 typedef struct _ExampleAppWindowClass ExampleAppWindowClass;
+typedef struct _ExampleAppWindowPrivate ExampleAppWindowPrivate;
 
 GType example_app_window_get_type(void);
 ExampleAppWindow *example_app_window_new(ExampleApp *app);
