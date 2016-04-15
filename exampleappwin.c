@@ -15,6 +15,7 @@ struct _ExampleAppWindowClass
 
 struct _ExampleAppWindowPrivate
 {
+    GSettings *settings;
     GtkWidget *stack;
 };
 
@@ -22,28 +23,23 @@ G_DEFINE_TYPE_WITH_PRIVATE(ExampleAppWindow, example_app_window, GTK_TYPE_APPLIC
 
 static void example_app_window_init(ExampleAppWindow *win)
 {
-    gtk_widget_init_template(GTK_WIDGET(win));
-}
-
-static void example_app_window_init(ExampleAppWindow *win)
-{
     ExampleAppWindowPrivate *priv;
 
     priv = example_app_window_get_instance_private(win);
     gtk_widget_init_template(GTK_WIDGET(win));
-    priv->setting = g_setting_new("net.bingliu.exampleapp");
+    priv->settings = g_settings_new("net.bingliu.exampleapp");
 
-    g_setting_bind(priv->settings, "transition", priv->stack, "transition-type", G_SETTING_BIND_DEFAULT);
+    g_settings_bind(priv->settings, "transition", priv->stack, "transition-type", G_SETTINGS_BIND_DEFAULT);
 }
 
 static void example_app_window_dispose(GObject *object)
 {
-    
+
 }
 
 static void example_app_window_class_init(ExampleAppWindowClass *class)
 {
-    gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(class), "/exampleapp/window.ui");
+    gtk_widget_class_set_template_from_resource(GTK_WIDGET_CLASS(class), "/net/bingliu/exampleapp/window.ui");
     gtk_widget_class_bind_template_child_private(GTK_WIDGET_CLASS(class), ExampleAppWindow, stack);
 }
 

@@ -2,6 +2,7 @@
 
 #include "exampleapp.h"
 #include "exampleappwin.h"
+#include "exampleappprefs.h"
 
 struct _ExampleApp
 {
@@ -20,9 +21,14 @@ static void example_app_init(ExampleApp *app)
 
 }
 
-static void preference_activate(GSimpleAction *action, GVariant *parameter, gpointer app)
+static void preferences_activated(GSimpleAction *action, GVariant *parameter, gpointer app)
 {
+    ExampleAppPrefs *prefs;
+    GtkWindow *win;
 
+    win = gtk_application_get_active_window(GTK_APPLICATION(app));
+    prefs = example_app_prefs_new(EXAMPLE_APP_WINDOW(win));
+    gtk_window_present(GTK_WINDOW(prefs));
 }
 
 static void quit_activated(GSimpleAction *action, GVariant *parameter, gpointer app)
@@ -31,7 +37,7 @@ static void quit_activated(GSimpleAction *action, GVariant *parameter, gpointer 
 }
 
 static GActionEntry app_entries[] = {
-    { "preference", preference_activate, NULL, NULL, NULL },
+    { "preferences", preferences_activated, NULL, NULL, NULL },
     { "quit", quit_activated, NULL, NULL, NULL}
 };
 
@@ -46,7 +52,7 @@ static void example_app_startup(GApplication *app)
     g_action_map_add_action_entries(G_ACTION_MAP(app), app_entries, G_N_ELEMENTS(app_entries), app);
     gtk_application_set_accels_for_action(GTK_APPLICATION(app), "app.quit", quit_accels);
 
-    builder = gtk_builder_new_from_resource("/exampleapp/app-menu.ui");
+    builder = gtk_builder_new_from_resource("/net/bingliu/exampleapp/app-menu.ui");
     app_menu = G_MENU_MODEL(gtk_builder_get_object(builder, "appmenu"));
     gtk_application_set_app_menu(GTK_APPLICATION(app), app_menu);
     g_object_unref(builder);

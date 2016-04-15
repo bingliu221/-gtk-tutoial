@@ -2,3 +2,5 @@
 /build
 exampleapp
 resources.c
+*.compiled
+*.valid
